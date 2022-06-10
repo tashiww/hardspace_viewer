@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+	<!-- TODO:
+			* somehow annotate large spikes in chart
+			* top 5 items salvaged / scrapped
+			* auto reconnect
+	-->
+<head>
+    <meta charset="UTF-8">
+    <title>hardspace tracker</title>
+<script src="./node_modules/chart.js/dist/chart.js"></script>
+    <script src="dynamicUpdate.js"></script>
+ 
+</head>
+<body onload="init();">
+<h1 style="text-align: center;">R.A.C.E LiveStats</h1>
+	<div>
+		<canvas id="myChart" height="400"></canvas>
+	</div>
+	<div style="display: inline-block;">
+
+	</div>
+	<p style="vertical-align: middle; background-color: red; display: inline-block; width: 150px; height: 30px; text-align: center;" id="ws_status">
+	No Connection
+	</p>
+	<input type="button" value="Clear data" onClick="resetData()">
+
+	<div style="width: 400px; display: inline-block; vertical-align: top">
+	<form>
+	<ul style="list-style-type: none;">
+		<li>
+			<label for="salvage">Salvage Value</label>
+			<input name="salvage" id="salvage" value="0">
+		</li>
+		<li>
+			<label for="scrap">Scrap Value</label>
+			<input name="scrap" id="scrap" value="0">
+		</li>
+		<li>
+			<label for="ratio">Salvage Rate</label>
+			<input name="ratio" id="ratio" value="0">
+		</li>
+	</ul>
+	</form>
+	</div>
+	<div style="display: inline-block;">
+
+		<label for="timer">Shift Timer</label>
+		<input id="timer" name="timer" value="0">
+		<label for="timebonus">Time Bonus</label>
+		<input id="timebonus" name="timebonus" value="51%">
+		<label for="nextdrop">Time Until Bonus Drops</label>
+		<input id="nextdrop" name="nextdrop" value="0">
+		<label for="nextloss">Loss at next drop</label>
+		<input id="nextloss" name="nextloss" value="0">
+	</div>
+	<div style="width: 400px; display: inline-block;">
+		<canvas id="sparkline">
+		</canvas>
+	</div>
+	<table id="checklist">
+		<tr id="addrow"><td><input type="button" onClick="addRow()" value="add row"></td></tr>
+		<tr>
+			<th>Item</th><th>Qty Needed</th><th>Qty Salvaged</th><th>Timestamp</th>
+		</tr>
+		<tr>
+			<td><select name="item" value="Ion Ring" type="select">
+				<option value='Access Panel'>Access Panel</option>
+				<option value='Airlock'>Airlock</option>
+				<option value='Airlock Console'>Airlock Console</option>
+				<option value='Atmosphere Regulator'>Atmosphere Regulator</option>
+				<option value='Battery Pack'>Battery Pack</option>
+				<option value='Class II Reactor'>Class II Reactor</option>
+				<option value='Computer Terminal'>Computer Terminal</option>
+				<option value='Coolant Pipe'>Coolant Pipe</option>
+				<option value='Door Console'>Door Console</option>
+				<option value='ECU'>ECU</option>
+				<option value='Fuel Tank'>Fuel Tank</option>
+				<option value='Glass'>Glass</option>
+				<option value='Gorrman Chair'>Gorrman Chair</option>
+				<option value='High-gain Antenna'>High-gain Antenna</option>
+				<option value='Ion Ring'>Ion Ring</option>
+				<option value='Light'>Light</option>
+				<option value='Mounting Plate'>Mounting Plate</option>
+				<option value='Nanocarbon'>Nanocarbon</option>
+				<option value='Panel (Aluminum)'>Panel (Aluminum)</option>
+				<option value='Panel (Nanocarbon)'>Panel (Nanocarbon)</option>
+				<option value='Panel (Titanium)'>Panel (Titanium)</option>
+				<option value='Poster'>Poster</option>
+				<option value='Power Generator'>Power Generator</option>
+				<option value='Radiation Containment Unit'>Radiation Containment Unit</option>
+				<option value='Radiation Filter'>Radiation Filter</option>
+				<option value='Seat'>Seat</option>
+				<option value='Storage Bin'>Storage Bin</option>
+				<option value='Structure (Aluminum)'>Structure (Aluminum)</option>
+				<option value='Structure (Titanium)'>Structure (Titanium)</option>
+				<option value='Thruster Cap'>Thruster Cap</option>
+				<option value='Thruster Class II'>Thruster Class II</option>
+				<option value='Wall Terminal'>Wall Terminal</option>
+			</td>
+			<td><input type="number" value="4"></td>
+			<td><input value="0"></td>
+			<td><input name="timestamp"></td>
+		</tr>
+	</table>
+	<p><input type="button" value="Clear rows" onClick="clearRows()"></p>
+	<textarea style="width: 1000px; height: 300px;" id="message"></textarea>
+<script type="text/javascript">
+	function addRow() {
+		document.querySelector('#addrow').closest('table').insertRow(-1).innerHTML = 
+				document.getElementById('checklist').rows[2].innerHTML;
+		}
+	function clearRows() {
+			while (document.getElementById('checklist').rows.length > 3) {
+				document.getElementById('checklist').rows[3].remove();
+
+				}
+		}
+const ctx = document.getElementById('myChart');
+const myChart = new Chart(ctx, {
+    type: 'line',
+		tension: 2,
+    data: {
+        datasets: [
+			{
+				label: 'Salvage',
+				pointRadius: 0,
+				fill: 'origin',
+				backgroundColor: "rgba(10, 180, 10, 0.4)",
+				data: [{x: 0, y: 0}],
+			},
+			{
+				label: 'Scrap',
+				pointRadius: 0,
+				fill: '-1',
+				backgroundColor: "rgba(180, 10, 10, 0.4)",
+				data: [{x: 0, y: 000}],
+			}
+			]
+    },
+    options: {
+			animation: false,
+		maintainAspectRatio: false,
+		responsive: true,
+        scales: {
+			x: { 
+				type: 'linear', 
+				beginAtZero: true,
+				ticks: {
+                    callback: function(value, index, ticks) {
+                        return Math.floor(value/60) +':'+ String(value % 60).padStart(2, '0');
+                    }
+					}
+				},
+            y: {
+				stacked: true,
+                beginAtZero: true,
+				ticks: {
+                    callback: function(value, index, ticks) {
+                        return '$' + (value/1000000).toFixed(1) + 'M';
+                    }
+					}
+            }
+        }
+    }
+});
+
+
+const ctx_spark = document.getElementById('sparkline');
+const sparkline = new Chart(ctx_spark, {
+    type: 'line',
+    data: {
+        datasets: [
+			{
+				pointRadius: 0,
+				borderColor: "rgba(180, 180, 10, 1)",
+					data: [{x: 0, y: 0000}],
+			},
+			]
+    },
+    options: {
+			animation: false,
+		plugins: {
+			legend: {
+					display: false
+				},
+			title: {
+				display: true,
+				text: "Salvage per Second",
+				position: 'top'
+			}},
+		maintainAspectRatio: false,
+		responsive: true,
+        scales: {
+			x: { 
+				type: 'linear', 
+				beginAtZero: true,
+				ticks: {
+                    callback: function(value, index, ticks) {
+                        return Math.floor(value/60) +':'+ String(value % 60).padStart(2, '0');
+                    }
+					}
+				},
+            y: {
+				stacked: true,
+                beginAtZero: true,
+				ticks: {
+                    callback: function(value, index, ticks) {
+                        return '$' + (value/1000).toFixed(0) + 'k';
+                    }
+					}
+            }
+        }
+    }
+});
+
+</script>
+</body>
+</html>
