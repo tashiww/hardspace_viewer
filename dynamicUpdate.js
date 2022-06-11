@@ -10,6 +10,8 @@ var cur_time = 0;
 var max_time = 0;
 var next_remaining_time_percentage = 0;
 var remaining_time_percentage = 0;
+var top_scrapped = {};
+var top_salvaged = {};
 
 function init() {
   // Connect to Web Socket server.
@@ -61,9 +63,49 @@ function init() {
 		timestamp = msg.gameTime;
 		if ( msg.destroyed ) {
 			scrap_value += msg.value;
+			if (top_scrapped.hasOwnProperty(msg.objectName)) {
+				top_scrapped[msg.objectName] += msg.value;
 			}
+			else {
+				top_scrapped[msg.objectName] = msg.value;
+			}
+			let sorted_scrap = [];
+			for (var item in top_scrapped) {
+				sorted_scrap.push([item, top_scrapped[item]]);
+			}
+
+			sorted_scrap.sort(function(a, b) {
+				return b[1] - a[1];
+			});
+			table = document.getElementById('top_scrap');
+			for (var i = 1, row; row = table.rows[i]; i++) {
+				if (i > sorted_scrap.length) { break; }
+				row.cells[0].innerHTML = sorted_scrap[i-1][0];
+				row.cells[1].innerHTML = Number(sorted_scrap[i-1][1].toFixed(0)).toLocaleString();
+			}
+		}
 		else {
 			salvage_value += msg.value;
+			if (top_salvaged.hasOwnProperty(msg.objectName)) {
+				top_salvaged[msg.objectName] += msg.value;
+			}
+			else {
+				top_salvaged[msg.objectName] = msg.value;
+			}
+			let sorted_salvage = [];
+			for (var item in top_salvaged) {
+				sorted_salvage.push([item, top_salvaged[item]]);
+			}
+
+			sorted_salvage.sort(function(a, b) {
+				return b[1] - a[1];
+			});
+			table = document.getElementById('top_salvage');
+			for (var i = 1, row; row = table.rows[i]; i++) {
+				if (i > sorted_salvage.length) { break; }
+				row.cells[0].innerHTML = sorted_salvage[i-1][0];
+				row.cells[1].innerHTML = Number(sorted_salvage[i-1][1].toFixed(0)).toLocaleString();
+			}
 		}
 		updateBar(timestamp, salvage_value, scrap_value)
 
@@ -127,11 +169,23 @@ function resetData() {
 		row.cells[2].firstChild.value = 0;
 		row.cells[3].firstChild.value = 0;
 	}
+	table = document.getElementById('top_scrap');
+	for (var i = 1, row; row = table.rows[i]; i++) {
+		row.cells[0].innerHTML = '';
+		row.cells[1].innerHTML = '';
+	}
+	table = document.getElementById('top_salvage');
+	for (var i = 1, row; row = table.rows[i]; i++) {
+		row.cells[0].innerHTML = '';
+		row.cells[1].innerHTML = '';
+	}
     myChart.data.labels.pop();
     myChart.data.datasets.forEach((dataset) => {
-        dataset.data.pop();
+        while(dataset.data.pop()) { };
     });
     myChart.update();
+	top_scrapped = {};
+	top_salvaged = {};
 }
 
 var remaining_times = [1,0.869,0.773,0.66,0.619,0.582,0.55,0.524,0.504,0.486,0.468,0.45,0.432,0.416,0.4,0.382,0.365,0.35,0.336,0.324,0.312,0.3,0.287,0.274,0.261,0.25,0.239,0.229,0.219,0.209,0.2,0.19,0.18,0.17,0.16,0.15,0.14,0.13,0.12,0.11,0.1,0.09,0.08,0.07,0.06,0.05,0.04,0.03,0.02,0.01];

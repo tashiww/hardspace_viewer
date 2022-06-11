@@ -2,8 +2,9 @@
 <html lang="en">
 	<!-- TODO:
 			* somehow annotate large spikes in chart
-			* top 5 items salvaged / scrapped
 			* auto reconnect
+			* format tooltips better
+			* time bonus rounding seconds
 	-->
 <head>
     <meta charset="UTF-8">
@@ -58,6 +59,30 @@
 		<canvas id="sparkline">
 		</canvas>
 	</div>
+	<table style="display: inline-block; vertical-align: top; text-align: center; width: 300px; " id="top_salvage">
+		<caption style="caption-side: top;">Top Salvage</caption>
+		<tr>
+			<th>Item</th>
+			<th>Value</th>
+		</tr>
+		<tr><td></td><td></td></tr>
+		<tr><td></td><td></td></tr>
+		<tr><td></td><td></td></tr>
+		<tr><td></td><td></td></tr>
+		<tr><td></td><td></td></tr>
+	</table>
+	<table style="display: inline-block; width: 300px; vertical-align: top; text-align: center;" id="top_scrap">
+		<caption style="caption-side: top;">Top Scrap</caption>
+		<tr>
+			<th>Item</th>
+			<th>Value</th>
+		</tr>
+		<tr><td></td><td></td></tr>
+		<tr><td></td><td></td></tr>
+		<tr><td></td><td></td></tr>
+		<tr><td></td><td></td></tr>
+		<tr><td></td><td></td></tr>
+	</table>
 	<table id="checklist">
 		<tr id="addrow"><td><input type="button" onClick="addRow()" value="add row"></td></tr>
 		<tr>
