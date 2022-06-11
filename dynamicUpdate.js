@@ -29,13 +29,23 @@ function init() {
 		cur_time = msg.currentTime.toFixed(0);
 		max_time = msg.maxTime;
 		document.getElementById('timer').value = secsToMins(cur_time);
-		document.getElementById('nextdrop').value = next_seconds - cur_time;
+		if (isNaN(next_seconds)) {
+			document.getElementById('nextdrop').value = 0;
+		}
+		else {
+			document.getElementById('nextdrop').value = next_seconds - cur_time;
+		}
 		document.getElementById('nextloss').value = 
 				Number((0.01 * salvage_value).toFixed(0)).toLocaleString();
 		remaining_time_percentage = ((max_time - cur_time) / max_time).toFixed(3);
 		var timebonus_index = remaining_times.findIndex(e => e < remaining_time_percentage) - 1;
-		document.getElementById('timebonus').value = (timebonuses[timebonus_index]* 100).toFixed(0) + '% (+$'
+		if (isNaN(timebonuses[timebonus_index])) {
+			document.getElementById('timebonus').value = '0%';
+		}
+		else {
+			document.getElementById('timebonus').value = (timebonuses[timebonus_index]* 100).toFixed(0) + '% (+$'
 		+ Number((salvage_value * timebonuses[timebonus_index]).toFixed(0)).toLocaleString() + ')';
+		}
 		next_seconds = (max_time - (max_time * remaining_times[timebonus_index+1])).toFixed(0);
 		// console.log(remaining_time_percentage);
 		// console.log(next_remaining_time_percentage);
@@ -57,6 +67,7 @@ function init() {
 		}
 		updateBar(timestamp, salvage_value, scrap_value)
 
+		table = document.getElementById('checklist');
 		for (var i = 2, row; row = table.rows[i]; i++) {
 			var item = row.cells[0].firstChild.value
 			var target = row.cells[1].firstChild.value
