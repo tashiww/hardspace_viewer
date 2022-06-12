@@ -4,7 +4,6 @@
 # how to install
 1. Install RACErs Ledger mod by sariya: https://git.sariya.dev/sariya/racers-ledger
 1. Clone this repo or download a zip of the code
-2. Download chart.js library and put the chart.js folder in the node_modules folder
 
 # how to use
 1. make sure you have prerequisites from "how to install" section above
