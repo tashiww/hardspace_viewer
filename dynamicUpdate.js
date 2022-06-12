@@ -29,6 +29,10 @@ function init() {
     let msg = JSON.parse(e.data);
 	if (msg.type == 'timeTickEvent') {
 		cur_time = msg.currentTime.toFixed(0);
+		if (cur_time < 1) {
+			resetData();
+		}
+
 		max_time = msg.maxTime;
 		document.getElementById('timer').value = secsToMins(cur_time);
 		if (isNaN(next_seconds)) {
@@ -184,6 +188,13 @@ function resetData() {
         while(dataset.data.pop()) { };
     });
     myChart.update();
+
+    sparkline.data.labels.pop();
+    sparkline.data.datasets.forEach((dataset) => {
+        while(dataset.data.pop()) { };
+    });
+    sparkline.update();
+
 	top_scrapped = {};
 	top_salvaged = {};
 }

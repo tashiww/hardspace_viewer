@@ -11,7 +11,25 @@
     <title>hardspace tracker</title>
 <script src="./node_modules/chart.js/dist/chart.js"></script>
     <script src="dynamicUpdate.js"></script>
- 
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap%27">
+
+<style type="text/css">
+	body {
+		background-color: black;
+		color: white;
+		font-family: 'VT323', 'sans-serif';
+		src: url('https://fonts.googleapis.com/css2?family=VT323&display=swap%27');
+		font-size: larger;
+
+	}
+	input, label {
+		font-size: larger;
+		border: 1px solid yellow;
+		background-color: black;
+		color: yellow;
+		font-family: 'VT323', 'sans-serif';
+		src: url('https://fonts.googleapis.com/css2?family=VT323&display=swap%27');
+</style>
 </head>
 <body onload="init();">
 <h1 style="text-align: center;">R.A.C.E LiveStats</h1>
@@ -131,6 +149,7 @@
 	<p><input type="button" value="Clear rows" onClick="clearRows()"></p>
 	<textarea style="width: 1000px; height: 300px;" id="message"></textarea>
 <script type="text/javascript">
+	Chart.defaults.color = '#fff';
 	function addRow() {
 		document.querySelector('#addrow').closest('table').insertRow(-1).innerHTML = 
 				document.getElementById('checklist').rows[2].innerHTML;
@@ -164,11 +183,13 @@ const myChart = new Chart(ctx, {
 			]
     },
     options: {
+
 			animation: false,
 		maintainAspectRatio: false,
 		responsive: true,
         scales: {
 			x: { 
+				color: '#ffff00',
 				type: 'linear', 
 				beginAtZero: true,
 				ticks: {
@@ -178,6 +199,7 @@ const myChart = new Chart(ctx, {
 					}
 				},
             y: {
+				color: "rgba(255, 255, 255, 1)",
 				stacked: true,
                 beginAtZero: true,
 				ticks: {
@@ -189,8 +211,6 @@ const myChart = new Chart(ctx, {
         }
     }
 });
-
-
 const ctx_spark = document.getElementById('sparkline');
 const sparkline = new Chart(ctx_spark, {
     type: 'line',
