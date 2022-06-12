@@ -16,19 +16,32 @@
 <style type="text/css">
 	body {
 		background-color: black;
-		color: white;
+		color: yellow;
 		font-family: 'VT323', 'sans-serif';
 		src: url('https://fonts.googleapis.com/css2?family=VT323&display=swap%27');
 		font-size: larger;
 
 	}
-	input, label {
+	label {
+	}
+	input, label, select {
+		padding: 4px;
 		font-size: larger;
 		border: 1px solid yellow;
 		background-color: black;
 		color: yellow;
 		font-family: 'VT323', 'sans-serif';
 		src: url('https://fonts.googleapis.com/css2?family=VT323&display=swap%27');
+	}
+	input#timer {
+		width: 80px;
+	}
+	input#nextdrop {
+		width: 50px;
+	}
+	input#nextloss {
+		width: 100px;
+	}
 </style>
 </head>
 <body onload="init();">
@@ -149,7 +162,7 @@
 	<p><input type="button" value="Clear rows" onClick="clearRows()"></p>
 	<textarea style="width: 1000px; height: 300px;" id="message"></textarea>
 <script type="text/javascript">
-	Chart.defaults.color = '#fff';
+	Chart.defaults.color = '#ffff00';
 	function addRow() {
 		document.querySelector('#addrow').closest('table').insertRow(-1).innerHTML = 
 				document.getElementById('checklist').rows[2].innerHTML;
