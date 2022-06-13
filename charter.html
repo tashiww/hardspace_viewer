@@ -24,8 +24,8 @@
 	}
 	input, label, select {
 		padding: 4px;
-		font-size: larger;
-		border: 1px solid orange;
+		font-size: 24px;
+		border: 2px solid orange;
 		background-color: black;
 		color: yellow;
 		font-family: 'VT323', 'sans-serif';
@@ -35,11 +35,20 @@
 		width: 80px;
 	}
 	input#nextdrop {
-		width: 50px;
+		width: 4ch;
+		text-align: center;
 	}
 	input#nextloss {
-		width: 100px;
+		width: 12ch;
 	}
+	input#timebonus{
+		width: 10ch; 
+		text-align: center;
+	}
+  canvas{
+    border: 2px solid orange;
+  }
+  
 </style>
 </head>
 <body onload="init();">
@@ -84,7 +93,7 @@
 		<label for="nextloss">Loss at next drop</label>
 		<input id="nextloss" name="nextloss" value="0">
 	</div>
-	<div style="width: 400px; display: inline-block;">
+	<div style="width: 700px; height: 350px; display: inline-block;">
 		<canvas id="sparkline">
 		</canvas>
 	</div>
@@ -243,7 +252,11 @@ const sparkline = new Chart(ctx_spark, {
 			title: {
 				display: true,
 				text: "Salvage per Second",
-				position: 'top'
+				position: 'top',
+        font: {
+          size: 24,
+          family: "sans-serif"
+        }
 			}},
 		maintainAspectRatio: false,
 		responsive: true,
@@ -254,7 +267,11 @@ const sparkline = new Chart(ctx_spark, {
 				ticks: {
                     callback: function(value, index, ticks) {
                         return Math.floor(value/60) +':'+ String(value % 60).padStart(2, '0');
-                    }
+                    },
+                    font: {
+											size: 18,
+											family: "sans-serif",
+										}
 					}
 				},
             y: {
@@ -263,7 +280,11 @@ const sparkline = new Chart(ctx_spark, {
 				ticks: {
                     callback: function(value, index, ticks) {
                         return '$' + (value/1000).toFixed(0) + 'k';
-                    }
+                    },
+										font: {
+											size: 18,
+											family: "sans-serif",
+										}
 					}
             }
         }
