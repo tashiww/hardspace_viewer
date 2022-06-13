@@ -271,7 +271,7 @@ const sparkline = new Chart(ctx_spark, {
                     font: {
                       size: 18,
                       family: "sans-serif",
-										}
+                    }
 					}
 				},
             y: {
@@ -281,12 +281,12 @@ const sparkline = new Chart(ctx_spark, {
                     callback: function(value, index, ticks) {
                         return '$' + (value/1000).toFixed(0) + 'k';
                     },
-									font: {
-                    size: 18,
-                    family: "sans-serif",
-									}
-					}
-            }
+                    font: {
+                      size: 18,
+                      family: "sans-serif",
+                    }
+               }
+             }
         }
     }
 });
