@@ -29,11 +29,10 @@ function init() {
     let msg = JSON.parse(e.data);
 	if (msg.type == 'timeTickEvent') {
 		cur_time = msg.currentTime.toFixed(0);
-		if (cur_time < 1) {
-			resetData();
-		}
-
 		max_time = msg.maxTime;
+    if (cur_time < 1) {
+      resetData();
+    }
 		document.getElementById('timer').value = secsToMins(cur_time);
 		if (isNaN(next_seconds)) {
 			document.getElementById('nextdrop').value = 0;
@@ -41,7 +40,7 @@ function init() {
 		else {
 			document.getElementById('nextdrop').value = next_seconds - cur_time;
 		}
-		document.getElementById('nextloss').value = 
+		document.getElementById('nextloss').value = "$" + 
 				Number((0.01 * salvage_value).toFixed(0)).toLocaleString();
 		remaining_time_percentage = ((max_time - cur_time) / max_time).toFixed(3);
 		var timebonus_index = remaining_times.findIndex(e => e < remaining_time_percentage) - 1;
@@ -56,7 +55,7 @@ function init() {
 		// console.log(remaining_time_percentage);
 		// console.log(next_remaining_time_percentage);
 		// console.log(next_seconds);
-		document.getElementById('nextdrop').value = next_seconds - cur_time;
+		document.getElementById('nextdrop').value = "-" + (next_seconds - cur_time).toLocaleString();
 		var salvage_per_second = (salvage_value / cur_time).toFixed(0);
 		sparkline.data.datasets[0].data.push({x:cur_time, y:salvage_per_second});
 		sparkline.update();
@@ -188,15 +187,13 @@ function resetData() {
         while(dataset.data.pop()) { };
     });
     myChart.update();
-
-    sparkline.data.labels.pop();
-    sparkline.data.datasets.forEach((dataset) => {
-        while(dataset.data.pop()) { };
-    });
-    sparkline.update();
-
 	top_scrapped = {};
 	top_salvaged = {};
+  sparkline.data.labels.pop();
+  sparkline.data.datasets.forEach((dataset) => {
+    while(dataset.data.pop()) { };
+  });
+  sparkline.update();
 }
 
 var remaining_times = [1,0.869,0.773,0.66,0.619,0.582,0.55,0.524,0.504,0.486,0.468,0.45,0.432,0.416,0.4,0.382,0.365,0.35,0.336,0.324,0.312,0.3,0.287,0.274,0.261,0.25,0.239,0.229,0.219,0.209,0.2,0.19,0.18,0.17,0.16,0.15,0.14,0.13,0.12,0.11,0.1,0.09,0.08,0.07,0.06,0.05,0.04,0.03,0.02,0.01];
