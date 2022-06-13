@@ -55,7 +55,7 @@ function init() {
 		// console.log(remaining_time_percentage);
 		// console.log(next_remaining_time_percentage);
 		// console.log(next_seconds);
-		document.getElementById('nextdrop').value = "-" + (next_seconds - cur_time).toLocaleString();
+		document.getElementById('nextdrop').value = "+" + (next_seconds - cur_time).toLocaleString();
 		var salvage_per_second = (salvage_value / cur_time).toFixed(0);
 		sparkline.data.datasets[0].data.push({x:cur_time, y:salvage_per_second});
 		sparkline.update();
