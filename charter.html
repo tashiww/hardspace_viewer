@@ -165,7 +165,6 @@
 			<tr><td></td><td></td></tr>
 		</table>
 		<table id="checklist">
-			<tr id="addrow"><td><input type="button" onClick="addRow()" value="add row"></td></tr>
 			<tr>
 				<th>Item</th><th>Qty Needed</th><th>Qty Salvaged</th><th>Timestamp</th>
 			</tr>
@@ -208,9 +207,12 @@
 				<td><input value="0"></td>
 				<td><input name="timestamp"></td>
 			</tr>
+			<tr id="addrow"><td><input type="button" onClick="addRow()" value="add row"></td>
+				<td><input type="button" value="Clear rows" onClick="clearRows()"></td>
+
+			</tr>
 		</table>
-		<p><input type="button" value="Clear rows" onClick="clearRows()"></p>
-		<textarea style="width: 1000px; height: 300px;" id="message"></textarea>
+		<textarea style="margin-top: 20px; width: 1000px; height: 300px;" id="message"></textarea>
 	<script type="text/javascript">
 		Chart.defaults.color = '#ffff00';
 		// setting google font here doesn't work because the javascript loads before the CSS
@@ -218,13 +220,14 @@
 		Chart.defaults.font.size = '24px';
 
 		function addRow() {
-			document.querySelector('#addrow').closest('table').insertRow(-1).innerHTML = 
-					document.getElementById('checklist').rows[2].innerHTML;
+			var len = document.querySelector('#addrow').closest('table').rows.length;
+			document.querySelector('#addrow').closest('table').insertRow(len-1).innerHTML = 
+										document.getElementById('checklist').rows[1].innerHTML;
 			}
 		function clearRows() {
-				while (document.getElementById('checklist').rows.length > 3) {
-					document.getElementById('checklist').rows[3].remove();
-
+					var len = document.getElementById('checklist').rows.length-2;
+					for (var i = 1; i < len; i++) {
+						document.getElementById('checklist').rows[2].remove();
 					}
 			}
 	const ctx = document.getElementById('cumulative_chart');

@@ -206,7 +206,7 @@ function resetData() {
 	next_remaining_time_percentage = 0;
 	remaining_time_percentage = 0;
 
-	updateElement('checklist', '', 'table', [2, 3]);
+	updateElement('checklist', 0, 'table', [2, 3]);
 	updateElement('top_scrap', '', 'table', [0, 1]);
 	updateElement('top_salvage', '', 'table', [0, 1]);
 
@@ -227,7 +227,15 @@ function updateElement(id, val, type='value', indices = null) {
 		table = document.getElementById(id);
 		for (var i = 1, row; row = table.rows[i]; i++) {
 			for (cell of indices) {
-				row.cells[cell].innerHTML = val;
+				if (id == 'checklist') {
+					if ( i == table.rows.length-1 ) {
+						break;
+					}
+					row.cells[cell].value = val;
+				}
+				else {
+					row.cells[cell].innerHTML = val;
+				}
 			}
 		}
 	}
