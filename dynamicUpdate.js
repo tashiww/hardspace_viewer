@@ -5,6 +5,7 @@ var salvage_value = 0;
 var scrap_value = 0;
 var table = document.getElementById('checklist');
 var next_seconds = 0;
+var prev_seconds = 0;
 var cur_time = 0;
 var max_time = 0;
 var mission_bonus = 0;
@@ -53,12 +54,28 @@ function init() {
 		+ Number((salvage_value * timebonuses[timebonus_index]).toFixed(0)).toLocaleString() + ')';
 		}
 		next_seconds = (max_time - (max_time * remaining_times[timebonus_index+1])).toFixed(0);
+		prev_seconds = (max_time - (max_time * remaining_times[timebonus_index])).toFixed(0);
+
 		score = calcScore(salvage_value, timebonuses[timebonus_index], mission_bonus);
 		updateElement('total_score', score);
 		// console.log(remaining_time_percentage);
 		// console.log(next_remaining_time_percentage);
 		// console.log(next_seconds);
-		document.getElementById('nextdrop').value = next_seconds - cur_time;
+
+		if (isNaN(next_seconds)) {
+			updateElement('nextdrop', 0);
+		}
+		else {
+			updateElement('nextdrop', next_seconds - cur_time);
+		}
+
+		if (isNaN(prev_seconds)) {
+			updateElement('prevdrop', 0);
+		}
+		else {
+			updateElement('prevdrop', prev_seconds - cur_time);
+		}
+
 		var salvage_per_second = (salvage_value / cur_time).toFixed(0);
 		sparkline.data.datasets[0].data.push({x:cur_time, y:salvage_per_second});
 		sparkline.update();

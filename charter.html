@@ -59,6 +59,10 @@
 				text-align: center;
 			}
 
+			input#prevdrop {
+				width: 4ch;
+				text-align: center;
+			}
 			input#timebonus{
 				width: 20ch; 
 				text-align: center;
@@ -80,7 +84,20 @@
 				height: 30px;
 				text-align: center;
 			}
+			div#values {
+				margin: 10px 0px;
+				vertical-align: top;
+				display: inline-block;
+			}
+			div#values input {
+				width: 14ch;
+				display: inline-block;
+			}
 
+			div#timers {
+				display: inline-block;
+				margin: 0px 0px 10px 0px;
+			}
 		</style>
 	</head>
 	<body onload="init();">
@@ -93,8 +110,8 @@
 			<canvas id="cumulative_chart" height="400"></canvas>
 		</div>
 
-		<div style="width: 400px;vertical-align: top; display: inline-block;">
-			<form style="display: inline-block;">
+		<div id="values">
+			<form>
 					<label for="salvage">Salvage Value</label>
 					<input name="salvage" id="salvage" value="0">
 					<label for="scrap">Scrap Value</label>
@@ -107,7 +124,7 @@
 					<input name="total_score" id="total_score" value="0">
 			</form>
 		</div>
-		<div style="display: inline-block;">
+		<div id="timers">
 			<label for="timer">Shift Timer</label>
 			<input type="text" id="timer" name="timer" value="0">
 			<label for="timebonus">Time Bonus</label>
@@ -116,6 +133,8 @@
 			<input type="text" id="nextdrop" name="nextdrop" value="0">
 			<label for="nextloss">Loss at next drop</label>
 			<input type="text" id="nextloss" name="nextloss" value="0">
+			<label for="prevdrop">Seconds Since Bonus Dropped</label>
+			<input type="text" id="prevdrop" name="prevdrop" value="0">
 		</div>
 		<div style="width: 700px; height: 350px; display: inline-block;">
 			<canvas id="sparkline">
@@ -195,7 +214,7 @@
 	<script type="text/javascript">
 		Chart.defaults.color = '#ffff00';
 		// setting google font here doesn't work because the javascript loads before the CSS
-		Chart.defaults.font.family = "monospace";
+		Chart.defaults.font.family = "'VT323', monospace";
 		Chart.defaults.font.size = '24px';
 
 		function addRow() {
