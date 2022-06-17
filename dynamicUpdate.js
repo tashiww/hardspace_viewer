@@ -170,7 +170,7 @@ function init() {
 }
 
 function calcScore(salvage, timebonus, mission_bonus) {
-	var total_score = (salvage + (salvage * ( timebonus + mission_bonus/100))).toFixed(0);
+	var total_score = (salvage * (1 + ( timebonus + mission_bonus/100))).toFixed(0);
 
 	if (isNaN(total_score)) {
 		return '$0';
