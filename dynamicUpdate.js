@@ -135,7 +135,8 @@ function init() {
 		updateBar(timestamp, salvage_value, scrap_value)
 
 		table = document.getElementById('checklist');
-		for (var i = 2, row; row = table.rows[i]; i++) {
+		for (var i = 1; i < table.rows.length-1; i++) {
+			var row = table.rows[i]
 			var item = row.cells[0].firstChild.value
 			var target = row.cells[1].firstChild.value
 			var cur_val = row.cells[2].firstChild.value
@@ -169,11 +170,13 @@ function init() {
 }
 
 function calcScore(salvage, timebonus, mission_bonus) {
-	if (salvage > 0) {
-		return '$' + Number((salvage + (salvage * ( timebonus + mission_bonus/100))).toFixed(0)).toLocaleString();
+	var total_score = (salvage + (salvage * ( timebonus + mission_bonus/100))).toFixed(0);
+
+	if (isNaN(total_score)) {
+		return '$0';
 	}
 	else {
-		return '$0';
+		return '$' + Number(total_score).toLocaleString();
 	}
 }
 
@@ -181,8 +184,8 @@ function updateBar(timestamp, salvage, scrap) {
 	cumulative_chart.data.datasets[0].data.push({x:timestamp, y:salvage});
 	cumulative_chart.data.datasets[1].data.push({x:timestamp, y:scrap});
 	cumulative_chart.update();
-	document.getElementById('salvage').value = Number(salvage.toFixed(0)).toLocaleString();
-	document.getElementById('scrap').value = Number(scrap.toFixed(0)).toLocaleString();
+	document.getElementById('salvage').value = '$' + Number(salvage.toFixed(0)).toLocaleString();
+	document.getElementById('scrap').value = '$' + Number(scrap.toFixed(0)).toLocaleString();
 	document.getElementById('ratio').value = (salvage / (scrap + salvage)*100).toFixed(1) + '%';
 }
 
@@ -228,10 +231,7 @@ function updateElement(id, val, type='value', indices = null) {
 		for (var i = 1, row; row = table.rows[i]; i++) {
 			for (cell of indices) {
 				if (id == 'checklist') {
-					if ( i == table.rows.length-1 ) {
-						break;
-					}
-					row.cells[cell].value = val;
+					row.cells[cell].firstChild.value = val;
 				}
 				else {
 					row.cells[cell].innerHTML = val;

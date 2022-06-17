@@ -165,6 +165,9 @@
 			<tr><td></td><td></td></tr>
 		</table>
 		<table id="checklist">
+			<tr id="addrow"><td><input type="button" onClick="addRow()" value="add row"></td>
+				<td><input type="button" value="Clear rows" onClick="clearRows()"></td>
+			</tr>
 			<tr>
 				<th>Item</th><th>Qty Needed</th><th>Qty Salvaged</th><th>Timestamp</th>
 			</tr>
@@ -203,13 +206,9 @@
 					<option value='Thruster Class II'>Thruster Class II</option>
 					<option value='Wall Terminal'>Wall Terminal</option>
 				</td>
-				<td><input type="number" value="4"></td>
-				<td><input value="0"></td>
+				<td><input type="number" name="target" value="4"></td>
+				<td><input type="number" name="actual" value="0"></td>
 				<td><input name="timestamp"></td>
-			</tr>
-			<tr id="addrow"><td><input type="button" onClick="addRow()" value="add row"></td>
-				<td><input type="button" value="Clear rows" onClick="clearRows()"></td>
-
 			</tr>
 		</table>
 		<textarea style="margin-top: 20px; width: 1000px; height: 300px;" id="message"></textarea>
@@ -221,12 +220,12 @@
 
 		function addRow() {
 			var len = document.querySelector('#addrow').closest('table').rows.length;
-			document.querySelector('#addrow').closest('table').insertRow(len-1).innerHTML = 
-										document.getElementById('checklist').rows[1].innerHTML;
+			document.querySelector('#addrow').closest('table').insertRow(len).innerHTML = 
+										document.getElementById('checklist').rows[2].innerHTML;
 			}
 		function clearRows() {
-					var len = document.getElementById('checklist').rows.length-2;
-					for (var i = 1; i < len; i++) {
+					var len = document.getElementById('checklist').rows.length;
+					for (var i = 2; i < len-1; i++) {
 						document.getElementById('checklist').rows[2].remove();
 					}
 			}
