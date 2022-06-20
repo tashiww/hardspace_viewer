@@ -13,12 +13,13 @@
 		<script src="./dynamicUpdate.js"></script>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap%27">
 
+
 		<style type="text/css">
+
 			body {
 				background-color: black;
 				color: yellow;
 				font-family: 'VT323', 'monospace';
-				src: url('https://fonts.googleapis.com/css2?family=VT323&display=swap%27');
 				font-size: 24px;
 
 			}
@@ -30,7 +31,6 @@
 				background-color: black;
 				color: yellow;
 				font-family: 'VT323', 'monospace';
-				src: url('https://fonts.googleapis.com/css2?family=VT323&display=swap%27');
 			}
 
 			table.topn {
@@ -98,7 +98,14 @@
 				display: inline-block;
 				margin: 0px 0px 10px 0px;
 			}
+			div#sparkline_container {
+			 width: 700px;
+			 height: 350px;
+			 display: inline-block;
+			}
 		</style>
+		<link rel="stylesheet" href="visibility.defaults.css">
+		<link rel="stylesheet" href="visibility.css">
 	</head>
 	<body onload="init();">
 		<div id="ws_status">
@@ -106,7 +113,7 @@
 		</div>
 		<input type="button" value="Clear data" onClick="resetData()">
 		<h1>R.A.C.E LiveStats</h1>
-		<div>
+		<div id="cumulative_container">
 			<canvas id="cumulative_chart" height="400"></canvas>
 		</div>
 
@@ -136,7 +143,7 @@
 			<label for="prevdrop">Seconds Since Bonus Dropped</label>
 			<input type="text" id="prevdrop" name="prevdrop" value="0">
 		</div>
-		<div style="width: 700px; height: 350px; display: inline-block;">
+		<div id="sparkline_container">
 			<canvas id="sparkline">
 			</canvas>
 		</div>

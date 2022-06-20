@@ -1,0 +1,57 @@
+/*
+ * Copy this file and rename it to "visibility.css" to save your preferences
+ * if you modify visibility.defaults.css, it will get clobbered when you re-sync
+ *
+ * change the display line to "display: none;" for any element to hide it
+ */
+
+div#ws_status {
+	/* Red / green "connected" status box */
+	display: inline-block;
+}
+
+div#cumulative_container {
+	/* Top stacked area chart showing cumulative salvage and scrap over time */
+	display: block;
+}
+
+div#values {
+	/* displays for salvage value, estimated score, etc. */
+	display: inline-block;
+}
+
+div#timers {
+	/* displays for shift timer, time bonus, countdown, etc. */
+	display: inline-block;
+}
+
+/* you can disable individual display values with more specific selectors */
+div#timers input[name='timer'],
+div#timers label[for='timer'] {
+	display: inline-block;
+}
+
+div#sparkline_container {
+	/* Salvage per second line chart */
+	display: inline-block;
+}
+
+div#top_salvage {
+	/* Top 5 list of salvaged items */
+	display: inline-block;
+}
+
+div#top_scrap {
+	/* Top 5 list of scrapped items */
+	display: inline-block;
+}
+
+table#checklist {
+	/* checklist table */
+	display: table;
+}
+
+textarea#message {
+	/* debug message area */
+	display: none;
+}
