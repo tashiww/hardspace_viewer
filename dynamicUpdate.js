@@ -173,11 +173,12 @@ function calcScore(salvage, timebonus, mission_bonus) {
 	var total_score = (salvage * (1 + ( timebonus + mission_bonus/100))).toFixed(0);
 
 	if (isNaN(total_score)) {
-		return '$0';
+		total_score = total_score_global;
 	}
 	else {
-		return '$' + Number(total_score).toLocaleString();
+		total_score_global = total_score;
 	}
+	return '$' + Number(total_score).toLocaleString();
 }
 
 function updateBar(timestamp, salvage, scrap) {
@@ -257,3 +258,5 @@ function clearChart(chart) {
 var remaining_times = [1,0.869,0.773,0.71,0.66,0.619,0.582,0.55,0.524,0.504,0.486,0.468,0.45,0.432,0.416,0.4,0.382,0.365,0.35,0.336,0.324,0.312,0.3,0.287,0.274,0.261,0.25,0.239,0.229,0.219,0.209,0.2,0.19,0.18,0.17,0.16,0.15,0.14,0.13,0.12,0.11,0.1,0.09,0.08,0.07,0.06,0.05,0.04,0.03,0.02,0.01];
 
 var timebonuses = [0.505,0.499968,0.489992,0.479983,0.469856,0.459996,0.449823,0.44,0.429698,0.419766,0.409966,0.399876,0.39,0.379692,0.369832,0.36,0.349615,0.339735,0.33,0.319526,0.309799,0.299819,0.29,0.27985,0.269849,0.259469,0.25,0.239669,0.229706,0.219448,0.209133,0.2,0.19,0.18,0.17,0.16,0.15,0.14,0.13,0.12,0.11,0.1,0.09,0.08,0.07,0.06,0.05,0.04,0.03,0.02,0.01];
+
+var total_score_global = 0;
