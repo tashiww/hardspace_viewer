@@ -107,7 +107,7 @@ function init() {
 				row.cells[1].innerHTML = Number(sorted_scrap[i-1][1].toFixed(0)).toLocaleString();
 			}
 		}
-		else {  // salvaged block
+		else { // salvaged block
 			salvage_value += msg.value;
 			score = calcScore(salvage_value, timebonuses[timebonus_index], mission_bonus);
 			updateElement('total_score', score);
